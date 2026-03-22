@@ -7,10 +7,11 @@ import pygame as pg
 def encontrarfactores(num):
     #esta funcion es complicada. para encontrar factores usualmente se usa la libreria math e iteracion, pero aqui no se podra
     #este metodo es extremadamente ineficiente para numeros grandes y puede llegar al limite de recursividad 
-    #try se usa para la restriccion de solo aceptar numeros enteros.
-    if isinstance(num,int):
+    #try se usa para la restriccion de solo aceptar numeros enteros. pero causa que numeros grandes no se puedan usar.
+    try:
+        num = int(num)
         return encontrarfactores_aux(abs(num))
-    else:
+    except:
         return "Numero Invalido."
     
 def encontrarfactores_aux(num, diviactual=1):
@@ -23,7 +24,6 @@ def encontrarfactores_aux(num, diviactual=1):
         if num % diviactual == 0:
             resultados.append((diviactual, num //diviactual))
         return resultados
-    
 # Creando la ventana base
 root = tk.Tk()
 root.title("Tarea Interfáz Gráfica Gabriel P")
@@ -32,9 +32,12 @@ root.resizable(False,False)
 
 # Imagenes para los fondos 
 imagenfondo1 = PhotoImage(file="fondo1.png")
-imagenfondo2 = PhotoImage(file="fondo2.png")
 
-def ventana_analisisnums():
+def cerrarventana(vent):
+    vent.destroy()
+    root.deiconify()
+
+def abrirvent_analisisnums():
     #para no lidear con funciones con self y clases (indeciso si se pueden usar o no), es mas facil evitar que se hagan mas ventanas.
     #al cerrar la ventana secundaria regresa el acceso a la ventana principal.
 
@@ -46,34 +49,33 @@ def ventana_analisisnums():
     ventananums.focus()
     ventananums.grab_set()
 
-    #Canvas y fondo
-    canvas2 = tk.Canvas(ventananums,bg="#5D94C1",height=400,width=400)
+    #Canvas
+    canvas2 = tk.Canvas(ventananums,bg="#7AA7CC",height=400,width=400)
     canvas2.pack()
-    fondo2 = tk.Label(canvas2,image=imagenfondo2)
-    fondo2.place(x=0,y=0)
 
-    # Botones y entradas
+    # Botones, entradas y labels
+
+    label3 = tk.Label(canvas2, text="Ingresar Número:",justify="center",padx=1,pady=1,relief="flat",bg="#7AA7CC",font=("",11))
+    label3.place(relx=0.5,rely=0.5,anchor="center")
+    
+    entradanum = tk.Entry(canvas2,justify="center")
+    entradanum.place(relx=0.5,rely=0.555,anchor="center")
+
+    label2 = tk.Label(canvas2, text="Pares de factores:",justify="center",padx=3,pady=3,relief="flat",bg="#7AA7CC",font=("",13))
+    label2.place(relx=0.5,rely=0.165,anchor="center")
+
+    labelnums = tk.Label(canvas2,text="",justify="center",padx=5,pady=5,relief="groove",height=5,width=35,wraplength=235,font=("",11))
+    labelnums.place(relx=0.5,rely=0.315,anchor="center")
+
 
     # Boton para cerrar la ventana
-
-    # ARREGLAR LA ENTRADA Y VERIFICACION DE LAS RESTRICCIONES.
-    numeroentrada = tk.IntVar()
-    entradanum = tk.Entry(canvas2,justify="center",textvariable=numeroentrada)
-    entradanum.place(relx=0.5,rely=0.4,anchor="center")
-    numuser = numeroentrada.get()
-
-    label2 = tk.Label(canvas2, text="Pares de factores:",justify="center",padx=5,pady=5,relief="groove",height=2,width=35,
-                  font=(11))
-    
-    label2.place(relx=0.5,rely=0.3,anchor="center",)
-    
     btcerrar1 = tk.Button(canvas2,text=("Regresar al menu"),justify="center",padx=2,pady=2,overrelief=("ridge"),
-                          command=lambda: ventananums.destroy())
+                          command=lambda: cerrarventana(ventananums))
     btcerrar1.place(anchor="nw",x=10,y=10)
 
     btcalcular = tk.Button(canvas2,text=("Calcular "),justify="center",padx=2,pady=2,overrelief=("ridge"),
-                           command=lambda: print(numuser))
-    btcalcular.place(anchor="s", rely = 0.8,relx=0.9)
+                           command=lambda: labelnums.config(text=encontrarfactores(entradanum.get())))
+    btcalcular.place(anchor="center", rely = 0.625,relx=0.5)
 
     
 
@@ -81,7 +83,7 @@ def ventana_analisisnums():
 canvas1 = tk.Canvas(root,bg="#5D94C1",height=500,width=500)
 canvas1.pack()
 fondo1 = tk.Label(canvas1,image=imagenfondo1)
-fondo1.place(x=0,y=0)
+fondo1.place(x=-10,y=0)
 
 
 # Elementos del menu principal
@@ -93,7 +95,7 @@ label1.place(relx=0.5,rely=0.3,anchor="center",)
 
 #Boton para abrir la ventana de Analisis de numeros
 btnumeros = tk.Button(canvas1, text=("Analisis de números"),justify="center",padx=5,pady=5,overrelief=("ridge"),
-                      command=lambda:ventana_analisisnums())
+                      command=lambda:abrirvent_analisisnums())
 btnumeros.place(relx=0.145,rely=0.94,anchor="sw")
 
 #Boton para abrir la ficha personal
