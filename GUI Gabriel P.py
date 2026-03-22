@@ -38,6 +38,7 @@ fotoarea = PhotoImage(file="fotoarea.png")
 fotoareasmall = fotoarea.subsample(2,2)
 
 def cerrarventana(vent):
+    pygame.mixer.music.stop()
     vent.destroy()
     vent.grab_release()
     root.deiconify()
@@ -90,13 +91,13 @@ def abrirvent_analisisnums():
 # Funcion para lo relacionado a la ventana de la ficha
 def abrirvent_ficha():
     # Igual modalidad que el resto de las ventanas.
-    # Solo aqui se usa pygame para el audio, sorprendente mente solo se usa en 3 lineas.
+    # Solo aqui se usa pygame para el audio, sorprendentemente solo se usa en 4 lineas.
     pygame.mixer.init()
     pygame.mixer.music.load("musica.mp3") 
     biografia = "Hola! Soy Gabriel, un estudiante en el Instituto Tecnológico de Costa Rica, soy de Cartago y estoy estudiando Ingieneria en Computadores " \
     "Honestamente no se que más decir sobre mi, puedo decir que tengo 2 gatos, pero ya nada más viene a la mente."
     datos = "Gabriel Picado J. Edad: 18 \n Carne: 2026012441"
-    datosmusica = "Actualmente estoy escuchando: \n Banda: Jamiroquai \n Género: Acid Jazz / Funk \n Click me!"
+    datosmusica = "Actualmente estoy escuchando: \n Banda: Jamiroquai \n Género: Acid Jazz / Funk \n \n Click me!"
     ventanaficha = tk.Toplevel()
     ventanaficha.title("Sobre mi")
     ventanaficha.geometry("600x500")
@@ -119,16 +120,18 @@ def abrirvent_ficha():
     labelbiografia = tk.Label(canvas3, text=biografia,justify="center",padx=3,pady=3,relief="groove",height=8,width=33,
                               wraplength=250,font=("",11))
     labelbiografia.place(relx=0.1,rely=0.35,anchor="w")
-    # Datos Musica
-    btmusica = tk.Button(canvas3,text=datosmusica,padx=3,pady=3,relief="raised",font=("",11),overrelief="groove",
-                         command=lambda:pygame.mixer.music.play(0))
-    btmusica.place(relx=0.15,rely=0.575,anchor="nw")
+
     # Foto personal
     foto1 = tk.Label(canvas3,image=fotopersonalsmall,relief="raised")
     foto1.place(relx=0.625,rely=0.35,anchor="w")
     # Foto del Mapa
     foto2 = tk.Label(canvas3,image=fotoareasmall,relief="raised")
     foto2.place(relx=0.6325,rely=0.7,anchor="w")
+
+    # Boton Musica
+    btmusica = tk.Button(canvas3,text=datosmusica,padx=3,pady=3,relief="raised",font=("",11),overrelief="groove",
+                         command=lambda:pygame.mixer.music.play(0))
+    btmusica.place(relx=0.15,rely=0.575,anchor="nw")
 
     # Boton para regresar a la ventana de menu
     btcerrar1 = tk.Button(canvas3,text=("Regresar al menu"),justify="center",padx=2,pady=2,overrelief=("ridge"),
