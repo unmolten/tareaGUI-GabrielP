@@ -65,13 +65,15 @@ root.title("Tarea Interfáz Gráfica Gabriel P")
 root.geometry("500x500")
 root.resizable(False,False)
 
-# Imagenes para los fondos 
+# Imagenes para los fondos e imagenes extra
 imagenfondo1 = PhotoImage(file="fondo1.png")
 imagenfondo2 = PhotoImage(file="fondo2.png")
 fotopersonal = PhotoImage(file="fotomia.png")
 fotopersonalsmall = fotopersonal.subsample(3,3)
 fotoarea = PhotoImage(file="fotoarea.png")
 fotoareasmall = fotoarea.subsample(2,2)
+fotoartista = PhotoImage(file="fotoartista.png")
+fotoartistasmall  = fotoartista.subsample(3,3)
 
 
 # Funcion para cerrar las ventanas 
@@ -136,7 +138,7 @@ def abrirvent_ficha():
     biografia = "Hola! Soy Gabriel, un estudiante en el Instituto Tecnológico de Costa Rica, soy de Cartago y estoy estudiando Ingieneria en Computadores " \
      "Honestamente no se que más decir sobre mi, puedo decir que tengo 2 gatos, pero ya nada más me viene a la mente."
     datos = "Gabriel Picado J. Edad: 18 \n Carne: 2026012441"
-    datosmusica = "Actualmente estoy escuchando: \n Banda: Jamiroquai \n Género: Acid Jazz / Funk \n \n Click me!"
+    datosmusica = "Actualmente estoy escuchando: \n Banda: Jamiroquai \n Género: Acid Jazz / Funk \n Click me!"
     ventanaficha = tk.Toplevel()
     ventanaficha.title("Sobre mi")
     ventanaficha.geometry("600x500")
@@ -167,10 +169,13 @@ def abrirvent_ficha():
     foto2 = tk.Label(canvasficha,image=fotoareasmall,relief="raised")
     foto2.place(relx=0.6325,rely=0.7,anchor="w")
 
+    foto3 = foto3 = tk.Label(canvasficha,image=fotoartistasmall,relief="raised")
+    foto3.place(relx=0.3,rely=0.55,anchor="nw")
+
     # Boton Musica
-    btmusica = tk.Button(canvasficha,text=datosmusica,padx=3,pady=3,relief="raised",font=("",11),overrelief="groove",
+    btmusica = tk.Button(canvasficha,text=datosmusica,padx=1,pady=2,relief="raised",font=("",11),overrelief="groove",wraplength=100,
                          command=lambda:pygame.mixer.music.play(0))
-    btmusica.place(relx=0.15,rely=0.575,anchor="nw")
+    btmusica.place(relx=0.1,rely=0.55,anchor="nw")
     # Boton para regresar a la ventana de menu
     btcerrar = tk.Button(canvasficha,text=("Regresar al menu"),justify="center",padx=2,pady=2,overrelief=("ridge"),
                           command=lambda: cerrarventana(ventanaficha))
